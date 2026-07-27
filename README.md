@@ -28,6 +28,8 @@ rules from source code.
 The initial BigBlue audit is captured in [docs/baseline.md](docs/baseline.md).
 The proposed first-stage design and decisions are in
 [docs/architecture.md](docs/architecture.md).
+Routine, non-agentic workflows are specified in
+[docs/operations.md](docs/operations.md).
 
 Run the non-destructive audit on either Mac:
 
