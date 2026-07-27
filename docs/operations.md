@@ -68,3 +68,23 @@ The workshop root should not normally be a Git repository when its child
 projects are independent repositories. The inventory reports this condition
 explicitly because a parent repository can accidentally track child project
 files and make repository boundaries ambiguous.
+
+### Retiring an unintended parent repository
+
+Preview the archival operation:
+
+```sh
+./scripts/archive-workshop-parent-git.sh
+```
+
+Apply it only after reviewing the resolved paths:
+
+```sh
+./scripts/archive-workshop-parent-git.sh --apply
+```
+
+The script moves only `~/workshop/.git` into a timestamped directory beneath
+`~/workshop-metadata-archive`. Before moving it, the script records the remote,
+history, tracked tree, tracked status, object summary, and a binary patch of
+uncommitted tracked changes. Project files and nested repositories remain in
+place. The complete original Git metadata is retained for recovery.
