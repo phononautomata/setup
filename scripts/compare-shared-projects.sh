@@ -34,8 +34,12 @@ find "$local_root" -mindepth 1 -maxdepth 1 -type d -print |
       continue
     fi
 
+    remote_project="$remote_root/$project"
+
+    # Explicitly invoke POSIX sh because BigBlue's interactive login shell may
+    # be Fish, which does not implement POSIX command-substitution syntax.
     if ! ssh -o BatchMode=yes "$remote_host" \
-      "test -d '$remote_root/$project/.git' -o -f '$remote_root/$project/.git'"; then
+      "/bin/sh -c 'test -e \"$remote_project/.git\"'"; then
       continue
     fi
 
@@ -50,13 +54,15 @@ find "$local_root" -mindepth 1 -maxdepth 1 -type d -print |
     local_origin="$(git -C "$local_project" remote get-url origin 2>/dev/null || printf none)"
 
     remote_record="$(ssh -o BatchMode=yes "$remote_host" \
-      "project='$remote_root/$project'
+      "/bin/sh -c '
+       project=\"$remote_project\"
        branch=\$(git -C \"\$project\" branch --show-current 2>/dev/null)
-       test -n \"\$branch\" || branch='(detached-or-unborn)'
+       test -n \"\$branch\" || branch=\"(detached-or-unborn)\"
        head=\$(git -C \"\$project\" rev-parse HEAD 2>/dev/null || printf none)
        if test -n \"\$(git -C \"\$project\" status --porcelain 2>/dev/null)\"; then dirty=yes; else dirty=no; fi
        origin=\$(git -C \"\$project\" remote get-url origin 2>/dev/null || printf none)
-       printf '%s\\t%s\\t%s\\t%s\\n' \"\$branch\" \"\$head\" \"\$dirty\" \"\$origin\"")"
+       printf \"%s\\\\t%s\\\\t%s\\\\t%s\\\\n\" \"\$branch\" \"\$head\" \"\$dirty\" \"\$origin\"
+       '")"
 
     remote_branch="$(printf '%s\n' "$remote_record" | awk -F '\t' '{print $1}')"
     remote_head="$(printf '%s\n' "$remote_record" | awk -F '\t' '{print $2}')"
