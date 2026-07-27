@@ -16,7 +16,7 @@ if [ ! -d "$local_root" ]; then
   exit 1
 fi
 
-if ! ssh -o BatchMode=yes "$remote_host" "$remote_test" -d "$remote_root"; then
+if ! ssh -n -o BatchMode=yes "$remote_host" "$remote_test" -d "$remote_root"; then
   printf 'error: cannot verify BigBlue workshop root: %s\n' "$remote_root" >&2
   exit 1
 fi
@@ -43,7 +43,7 @@ find "$local_root" -mindepth 1 -maxdepth 1 -type d -print |
 
     remote_project="$remote_root/$project"
 
-    if ! ssh -o BatchMode=yes "$remote_host" \
+    if ! ssh -n -o BatchMode=yes "$remote_host" \
       "$remote_test" -e "$remote_project/.git"; then
       continue
     fi
@@ -60,19 +60,19 @@ find "$local_root" -mindepth 1 -maxdepth 1 -type d -print |
 
     # Invoke concrete executables directly. Avoid compound remote shell syntax
     # so the comparison is independent of BigBlue's interactive login shell.
-    remote_branch="$(ssh -o BatchMode=yes "$remote_host" \
+    remote_branch="$(ssh -n -o BatchMode=yes "$remote_host" \
       "$remote_git" -C "$remote_project" branch --show-current 2>/dev/null || true)"
     [ -n "$remote_branch" ] || remote_branch='(detached-or-unborn)'
-    remote_head="$(ssh -o BatchMode=yes "$remote_host" \
+    remote_head="$(ssh -n -o BatchMode=yes "$remote_host" \
       "$remote_git" -C "$remote_project" rev-parse HEAD 2>/dev/null || printf none)"
-    remote_status="$(ssh -o BatchMode=yes "$remote_host" \
+    remote_status="$(ssh -n -o BatchMode=yes "$remote_host" \
       "$remote_git" -C "$remote_project" status --porcelain 2>/dev/null || true)"
     if [ -n "$remote_status" ]; then
       remote_dirty=yes
     else
       remote_dirty=no
     fi
-    remote_origin="$(ssh -o BatchMode=yes "$remote_host" \
+    remote_origin="$(ssh -n -o BatchMode=yes "$remote_host" \
       "$remote_git" -C "$remote_project" remote get-url origin 2>/dev/null || printf none)"
 
     if [ "$local_head" = "$remote_head" ]; then
