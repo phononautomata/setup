@@ -65,6 +65,18 @@ machine-to-machine identity. MotokoKusanagi's unique default public key
 (`SHA256:tbt/BuwiurQZrnnlHIANWTg961BfBsFvXqGr75mX+A0`) is already present in
 BigBlue's `authorized_keys`.
 
+MotokoKusanagi previously had an unintended Git repository rooted at
+`~/workshop`, connected to `phononautomata/flows`. It contained one commit
+tracking two nested files, one tracked modification, and approximately 256 MB
+of mostly dangling objects. On 2026-07-27, its complete `.git` directory and
+diagnostic metadata were reversibly moved to:
+
+```text
+~/workshop-metadata-archive/workshop-parent-git-20260727T135404Z
+```
+
+Nested project repositories and workshop files remained in place.
+
 ## Immediate risks and unknowns
 
 1. Neither Mac has a verified working Time Machine destination.

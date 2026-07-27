@@ -88,3 +88,16 @@ The script moves only `~/workshop/.git` into a timestamped directory beneath
 history, tracked tree, tracked status, object summary, and a binary patch of
 uncommitted tracked changes. Project files and nested repositories remain in
 place. The complete original Git metadata is retained for recovery.
+
+## Comparing shared project histories
+
+From MotokoKusanagi, compare same-named Git repositories over SSH:
+
+```sh
+./scripts/compare-shared-projects.sh
+```
+
+The script reports branches, commit IDs, dirty state, and whether origins
+match. It reads repository metadata only. It does not fetch, merge, copy, or
+modify either machine. Run this comparison before any data transfer into an
+existing project directory.
