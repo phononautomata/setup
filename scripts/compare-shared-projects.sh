@@ -8,6 +8,7 @@ set -eu
 local_root="${LOCAL_WORKSHOP_ROOT:-"$HOME/workshop"}"
 remote_host="${BIGBLUE_SSH_HOST:-"ademiguel@bigblue"}"
 remote_root="${BIGBLUE_WORKSHOP_ROOT:-"/Users/ademiguel/workshop"}"
+remote_git="${BIGBLUE_GIT:-"/usr/bin/git"}"
 
 if [ ! -d "$local_root" ]; then
   printf 'error: local workshop root not found: %s\n' "$local_root" >&2
@@ -36,10 +37,8 @@ find "$local_root" -mindepth 1 -maxdepth 1 -type d -print |
 
     remote_project="$remote_root/$project"
 
-    # Explicitly invoke POSIX sh because BigBlue's interactive login shell may
-    # be Fish, which does not implement POSIX command-substitution syntax.
     if ! ssh -o BatchMode=yes "$remote_host" \
-      "/bin/sh -c 'test -e \"$remote_project/.git\"'"; then
+      /usr/bin/test -e "$remote_project/.git"; then
       continue
     fi
 
@@ -53,21 +52,22 @@ find "$local_root" -mindepth 1 -maxdepth 1 -type d -print |
     fi
     local_origin="$(git -C "$local_project" remote get-url origin 2>/dev/null || printf none)"
 
-    remote_record="$(ssh -o BatchMode=yes "$remote_host" \
-      "/bin/sh -c '
-       project=\"$remote_project\"
-       branch=\$(git -C \"\$project\" branch --show-current 2>/dev/null)
-       test -n \"\$branch\" || branch=\"(detached-or-unborn)\"
-       head=\$(git -C \"\$project\" rev-parse HEAD 2>/dev/null || printf none)
-       if test -n \"\$(git -C \"\$project\" status --porcelain 2>/dev/null)\"; then dirty=yes; else dirty=no; fi
-       origin=\$(git -C \"\$project\" remote get-url origin 2>/dev/null || printf none)
-       printf \"%s\\\\t%s\\\\t%s\\\\t%s\\\\n\" \"\$branch\" \"\$head\" \"\$dirty\" \"\$origin\"
-       '")"
-
-    remote_branch="$(printf '%s\n' "$remote_record" | awk -F '\t' '{print $1}')"
-    remote_head="$(printf '%s\n' "$remote_record" | awk -F '\t' '{print $2}')"
-    remote_dirty="$(printf '%s\n' "$remote_record" | awk -F '\t' '{print $3}')"
-    remote_origin="$(printf '%s\n' "$remote_record" | awk -F '\t' '{print $4}')"
+    # Invoke concrete executables directly. Avoid compound remote shell syntax
+    # so the comparison is independent of BigBlue's interactive login shell.
+    remote_branch="$(ssh -o BatchMode=yes "$remote_host" \
+      "$remote_git" -C "$remote_project" branch --show-current 2>/dev/null || true)"
+    [ -n "$remote_branch" ] || remote_branch='(detached-or-unborn)'
+    remote_head="$(ssh -o BatchMode=yes "$remote_host" \
+      "$remote_git" -C "$remote_project" rev-parse HEAD 2>/dev/null || printf none)"
+    remote_status="$(ssh -o BatchMode=yes "$remote_host" \
+      "$remote_git" -C "$remote_project" status --porcelain 2>/dev/null || true)"
+    if [ -n "$remote_status" ]; then
+      remote_dirty=yes
+    else
+      remote_dirty=no
+    fi
+    remote_origin="$(ssh -o BatchMode=yes "$remote_host" \
+      "$remote_git" -C "$remote_project" remote get-url origin 2>/dev/null || printf none)"
 
     if [ "$local_head" = "$remote_head" ]; then
       head_match=yes
