@@ -128,3 +128,31 @@ Use `--full` for a forensic comparison containing those paths:
 `deleting` markers mean a path exists only on BigBlue; they are displayed to
 make asymmetry visible, but the script cannot delete them. Do not interpret
 either preview as authorization to mirror the whole project.
+
+## Adding a project subtree to BigBlue
+
+Preview a named subtree from MotokoKusanagi:
+
+```sh
+./scripts/push-project-subtree.sh PROJECT RELATIVE_SUBTREE
+```
+
+Apply the reviewed transfer:
+
+```sh
+./scripts/push-project-subtree.sh --apply PROJECT RELATIVE_SUBTREE
+```
+
+The policy is deliberately conservative:
+
+- copy only files that do not already exist on BigBlue;
+- never overwrite an existing destination file;
+- never delete anything;
+- never transfer `.DS_Store`;
+- reject absolute paths and parent-directory traversal;
+- record every preview and applied run under
+  `~/workshop-transfer-logs`.
+
+This creates a safe union, not a fully harmonized mirror. Same-path conflicts
+must be compared and resolved separately. Do not apply a transfer until the
+subtree's confidentiality and destination authorization are understood.
