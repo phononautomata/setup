@@ -111,7 +111,20 @@ differences from MotokoKusanagi:
 ./scripts/compare-project-files.sh PROJECT
 ```
 
-This wrapper is permanently dry-run. It excludes `.git` and `.DS_Store`.
+This wrapper is permanently dry-run. Its normal research-state view excludes:
+
+- Git-tracked files, which are reconciled through Git;
+- `.git` and `.DS_Store`;
+- Python virtual environments and bytecode caches;
+- Rust `target` directories;
+- common test, type-checker, and linter caches.
+
+Use `--full` for a forensic comparison containing those paths:
+
+```sh
+./scripts/compare-project-files.sh --full PROJECT
+```
+
 `deleting` markers mean a path exists only on BigBlue; they are displayed to
 make asymmetry visible, but the script cannot delete them. Do not interpret
-this preview as authorization to mirror the whole project.
+either preview as authorization to mirror the whole project.

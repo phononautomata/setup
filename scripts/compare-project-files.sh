@@ -6,8 +6,14 @@
 
 set -eu
 
+full=no
+if [ "${1:-}" = "--full" ]; then
+  full=yes
+  shift
+fi
+
 if [ "$#" -ne 1 ]; then
-  printf 'usage: %s PROJECT\n' "$0" >&2
+  printf 'usage: %s [--full] PROJECT\n' "$0" >&2
   exit 2
 fi
 
@@ -41,10 +47,40 @@ printf '# destination\t%s:%s\n' "$remote_host" "$remote_project/"
 printf '# direction\tMotokoKusanagi -> BigBlue\n'
 printf '# note\tdeleting markers identify BigBlue-only paths; nothing is deleted\n'
 
-/usr/bin/rsync \
-  -aniv \
-  --delete \
-  --exclude='.git/' \
-  --exclude='.DS_Store' \
-  "$local_project/" \
-  "$remote_host:$remote_project/"
+if [ "$full" = yes ]; then
+  printf '# view\tfull\n'
+  /usr/bin/rsync \
+    -aniv \
+    --delete \
+    --exclude='.git/' \
+    --exclude='.DS_Store' \
+    "$local_project/" \
+    "$remote_host:$remote_project/"
+else
+  printf '# view\tresearch-state (tracked files and reproducible environments/builds excluded)\n'
+
+  exclude_file="$(mktemp "${TMPDIR:-/tmp}/workshop-tracked.XXXXXX")"
+  trap 'rm -f "$exclude_file"' EXIT HUP INT TERM
+
+  if [ -d "$local_project/.git" ] || [ -f "$local_project/.git" ]; then
+    git -C "$local_project" ls-files | sed 's|^|/|' > "$exclude_file"
+  fi
+
+  /usr/bin/rsync \
+    -aniv \
+    --delete \
+    --exclude-from="$exclude_file" \
+    --exclude='.git/' \
+    --exclude='.DS_Store' \
+    --exclude='.venv/' \
+    --exclude='venv/' \
+    --exclude='.nagare/' \
+    --exclude='target/' \
+    --exclude='__pycache__/' \
+    --exclude='.pytest_cache/' \
+    --exclude='.mypy_cache/' \
+    --exclude='.ruff_cache/' \
+    --exclude='*.pyc' \
+    "$local_project/" \
+    "$remote_host:$remote_project/"
+fi

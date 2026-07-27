@@ -101,3 +101,10 @@ On 2026-07-27, BigBlue initialized and pushed the canonical setup repository to
 the private GitHub repository `phononautomata/setup`. MotokoKusanagi then cloned
 that repository into `~/workshop/setup`, replacing the earlier manual-copy
 workflow with explicit Git push/pull synchronization.
+
+The `nagare` pilot was reconciled on 2026-07-27. BigBlue's clean `main` branch
+was a strict ancestor of MotokoKusanagi by two commits and was safely
+fast-forwarded through GitHub to `6774e565`. Both repositories were clean and
+aligned afterward. File comparison showed that most directory asymmetry came
+from machine-local Python environments and Rust build outputs; research data,
+results, and caches remain deliberately unreconciled pending classification.
