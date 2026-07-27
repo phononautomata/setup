@@ -9,9 +9,15 @@ local_root="${LOCAL_WORKSHOP_ROOT:-"$HOME/workshop"}"
 remote_host="${BIGBLUE_SSH_HOST:-"ademiguel@bigblue"}"
 remote_root="${BIGBLUE_WORKSHOP_ROOT:-"/Users/ademiguel/workshop"}"
 remote_git="${BIGBLUE_GIT:-"/usr/bin/git"}"
+remote_test="${BIGBLUE_TEST:-"/bin/test"}"
 
 if [ ! -d "$local_root" ]; then
   printf 'error: local workshop root not found: %s\n' "$local_root" >&2
+  exit 1
+fi
+
+if ! ssh -o BatchMode=yes "$remote_host" "$remote_test" -d "$remote_root"; then
+  printf 'error: cannot verify BigBlue workshop root: %s\n' "$remote_root" >&2
   exit 1
 fi
 
@@ -38,7 +44,7 @@ find "$local_root" -mindepth 1 -maxdepth 1 -type d -print |
     remote_project="$remote_root/$project"
 
     if ! ssh -o BatchMode=yes "$remote_host" \
-      /usr/bin/test -e "$remote_project/.git"; then
+      "$remote_test" -e "$remote_project/.git"; then
       continue
     fi
 
