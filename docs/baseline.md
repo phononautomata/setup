@@ -82,3 +82,10 @@ On 2026-07-27, BigBlue successfully reached MotokoKusanagi through Tailscale.
 The first probe used Tailscale's Madrid relay while the peers negotiated; the
 next probe established a direct local peer-to-peer path. No router
 port-forwarding was configured.
+
+## Git synchronization verification
+
+On 2026-07-27, BigBlue initialized and pushed the canonical setup repository to
+the private GitHub repository `phononautomata/setup`. MotokoKusanagi then cloned
+that repository into `~/workshop/setup`, replacing the earlier manual-copy
+workflow with explicit Git push/pull synchronization.
