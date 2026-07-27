@@ -49,3 +49,8 @@ Run the metadata-only inventory:
 It reports top-level names, sizes, Git state, sanitized remote location,
 archive counts, and counts of files larger than 100 MiB. It does not read file
 contents or modify projects.
+
+The workshop root should not normally be a Git repository when its child
+projects are independent repositories. The inventory reports this condition
+explicitly because a parent repository can accidentally track child project
+files and make repository boundaries ambiguous.

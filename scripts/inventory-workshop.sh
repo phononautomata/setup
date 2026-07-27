@@ -17,6 +17,21 @@ machine="$(scutil --get ComputerName 2>/dev/null || hostname)"
 printf '# machine\t%s\n' "$machine"
 printf '# root\t%s\n' "$workshop_root"
 printf '# generated\t%s\n' "$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+
+if [ -d "$workshop_root/.git" ] || [ -f "$workshop_root/.git" ]; then
+  root_branch="$(git -C "$workshop_root" branch --show-current 2>/dev/null || true)"
+  [ -n "$root_branch" ] || root_branch='(detached-or-unborn)'
+  root_remote="$(git -C "$workshop_root" remote get-url origin 2>/dev/null || printf none)"
+  root_tracked="$(git -C "$workshop_root" ls-files 2>/dev/null | wc -l | tr -d ' ')"
+  printf '# root_git\tyes\n'
+  printf '# root_git_branch\t%s\n' "$root_branch"
+  printf '# root_git_origin\t%s\n' "$root_remote"
+  printf '# root_git_tracked_files\t%s\n' "$root_tracked"
+  printf 'warning: workshop root is itself a Git repository; inspect before transfer\n' >&2
+else
+  printf '# root_git\tno\n'
+fi
+
 printf 'entry\ttype\tsize_mib\tgit\tbranch\tdirty\tremote_host\tremote_path\tarchives\tlarge_files\n'
 
 find "$workshop_root" -mindepth 1 -maxdepth 1 -print |
