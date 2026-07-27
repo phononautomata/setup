@@ -101,3 +101,17 @@ The script reports branches, commit IDs, dirty state, and whether origins
 match. It reads repository metadata only. It does not fetch, merge, copy, or
 modify either machine. Run this comparison before any data transfer into an
 existing project directory.
+
+## Comparing project files
+
+After Git histories are aligned, preview unversioned and ignored-file
+differences from MotokoKusanagi:
+
+```sh
+./scripts/compare-project-files.sh PROJECT
+```
+
+This wrapper is permanently dry-run. It excludes `.git` and `.DS_Store`.
+`deleting` markers mean a path exists only on BigBlue; they are displayed to
+make asymmetry visible, but the script cannot delete them. Do not interpret
+this preview as authorization to mirror the whole project.
