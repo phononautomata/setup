@@ -19,6 +19,20 @@ Synchronization and backup are not synonyms. A synchronized deletion can
 quickly propagate to every connected machine; a backup must preserve a
 recoverable earlier state.
 
+## Migration direction
+
+During initial harmonization, MotokoKusanagi is authoritative for projects that
+also exist on BigBlue. Transfer tooling must therefore default to:
+
+```text
+MotokoKusanagi -> BigBlue
+```
+
+This is a migration rule, not a permanent synchronization design. Existing
+BigBlue copies are retained until comparison and verification complete. A
+project is never selected by modification timestamps alone, and a directory is
+never mirrored wholesale merely because its name matches on both machines.
+
 ## Safety contract for transfer tooling
 
 The transfer wrapper developed for this repository will:

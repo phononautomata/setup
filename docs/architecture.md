@@ -2,6 +2,26 @@
 
 ## Stage 1: communication and source synchronization
 
+### Initial migration authority
+
+As of 2026-07-27, MotokoKusanagi is the authoritative source for the most
+current functioning version of every project that exists on both Macs.
+BigBlue's overlapping project directories are treated as older candidates
+until compared and reconciled.
+
+This rule applies only to the initial harmonization. It does not authorize a
+bulk overwrite:
+
+1. preserve BigBlue's current project state;
+2. inspect and commit or otherwise account for dirty working trees;
+3. reconcile source history through the project's Git remote;
+4. preview unversioned-data transfer separately;
+5. verify the result before retiring an older copy.
+
+After harmonization, no Mac is the universal source of truth. GitHub is
+canonical for committed source; documented upstream sources and manifests
+describe reproducible inputs; verified backups protect irreplaceable data.
+
 ### GitHub as canonical Git remote
 
 Every active code or manuscript project should have one canonical GitHub remote
