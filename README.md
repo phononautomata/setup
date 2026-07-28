@@ -12,6 +12,8 @@ workflow between the two Macs. Bulk-data storage and synchronization are a
 separate milestone because research data needs different safety and capacity
 rules from source code.
 
+Start with the [whole-ecosystem map](docs/ecosystem.md).
+
 ## Working principles
 
 1. GitHub is the canonical remote for code, manuscripts, and configuration.
