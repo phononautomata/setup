@@ -30,6 +30,8 @@ The proposed first-stage design and decisions are in
 [docs/architecture.md](docs/architecture.md).
 Routine, non-agentic workflows are specified in
 [docs/operations.md](docs/operations.md).
+Per-project reconciliation decisions are tracked in
+[docs/project-migration.md](docs/project-migration.md).
 
 Run the non-destructive audit on either Mac:
 
