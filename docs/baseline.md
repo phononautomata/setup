@@ -95,6 +95,18 @@ The first probe used Tailscale's Madrid relay while the peers negotiated; the
 next probe established a direct local peer-to-peer path. No router
 port-forwarding was configured.
 
+SSH authentication was subsequently verified in both directions using each
+Mac's unique default Ed25519 identity:
+
+```text
+MotokoKusanagi -> BigBlue
+BigBlue -> MotokoKusanagi
+```
+
+No private key was copied. BigBlue's public key was already present in
+MotokoKusanagi's `authorized_keys`, and MotokoKusanagi's public key was already
+present in BigBlue's `authorized_keys`.
+
 ## Git synchronization verification
 
 On 2026-07-27, BigBlue initialized and pushed the canonical setup repository to

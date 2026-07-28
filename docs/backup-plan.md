@@ -4,7 +4,7 @@
 
 | Asset | State | Consequence |
 | --- | --- | --- |
-| BigBlue internal disk | FileVault off; no Time Machine destination | Loss/theft exposure and no versioned external recovery |
+| BigBlue internal disk | FileVault on; no Time Machine destination | Encrypted at rest, but no verified versioned external recovery |
 | MotokoKusanagi internal disk | FileVault on; Time Machine not configured | Encrypted at rest, but no verified versioned external recovery |
 | Colony9 | 2 TB exFAT; about 900 GB used and 1.1 TB free; unencrypted; SMART unavailable | Cannot be selected safely as a direct modern Time Machine volume without reformatting |
 | GitHub | Active for selected code repositories | Good source history, not a backup of ignored data |
