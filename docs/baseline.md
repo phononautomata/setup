@@ -107,6 +107,17 @@ No private key was copied. BigBlue's public key was already present in
 MotokoKusanagi's `authorized_keys`, and MotokoKusanagi's public key was already
 present in BigBlue's `authorized_keys`.
 
+BigBlue's unattended power configuration was verified on 2026-07-28:
+
+- system sleep disabled while on AC power;
+- network wake enabled;
+- display and disk sleep retained;
+- automatic restart after power failure enabled.
+
+Together with Tailscale and Remote Login, this makes BigBlue suitable as an
+always-available SSH, transfer, and compute endpoint, subject to household
+power and internet availability.
+
 ## Git synchronization verification
 
 On 2026-07-27, BigBlue initialized and pushed the canonical setup repository to
