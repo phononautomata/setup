@@ -13,6 +13,7 @@ reproducibility.
 | `securefood` | Same commit; dirty on both | Inspect working-tree differences and data sensitivity | Pending |
 | `inditex` | Divergent commits; dirty on both | Preserve both states before reconciliation | Pending |
 | `scenarios` | Divergent commits; dirty on both | Preserve both states before reconciliation | Pending |
+| `sf_dt` | Motoko branch `dev_claude` pushed; BigBlue clean at `6686c65` | Clone code only; transfer data only when a task requires it | Active and available |
 
 ## Inactive projects
 
@@ -31,3 +32,18 @@ large, independent virtual environments, Rust builds, caches, raw transport
 data, and result sets. Because the project is no longer active and the user
 does not need the data, none of those unversioned trees will be transferred.
 
+## Lightweight clone-first workflow
+
+`sf_dt` established the normal path for an active project that exists only on
+MotokoKusanagi:
+
+1. confirm the Motoko working tree is clean;
+2. push the active branch if it exists only locally;
+3. clone or fetch that branch on BigBlue;
+4. leave ignored data, environments, and build outputs behind;
+5. retrieve or transfer a specific data subtree only when work requires it.
+
+MotokoKusanagi's `dev_claude` branch was initially local-only. After it was
+pushed to GitHub, BigBlue checked out a shallow copy at `6686c65`, tracking
+`origin/dev_claude`. The BigBlue checkout was approximately 382 MB rather than
+MotokoKusanagi's roughly 8 GB project directory.
