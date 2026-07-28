@@ -5,10 +5,31 @@
 | Asset | State | Consequence |
 | --- | --- | --- |
 | BigBlue internal disk | FileVault off; no Time Machine destination | Loss/theft exposure and no versioned external recovery |
-| MotokoKusanagi internal disk | Time Machine not configured; FileVault status unverified | No verified versioned external recovery |
+| MotokoKusanagi internal disk | FileVault on; Time Machine not configured | Encrypted at rest, but no verified versioned external recovery |
 | Colony9 | 2 TB exFAT; about 900 GB used and 1.1 TB free; unencrypted; SMART unavailable | Cannot be selected safely as a direct modern Time Machine volume without reformatting |
 | GitHub | Active for selected code repositories | Good source history, not a backup of ignored data |
 | iCloud+ | 200 GB tier with about 121 GB free | Useful availability layer for selected documents, insufficient for research corpus |
+
+## Colony9 measured contents
+
+Measured on 2026-07-28:
+
+| Tree | Approximate size |
+| --- | ---: |
+| `audio` | 365 GB |
+| `anime` | 236 GB |
+| `workshop` | 153 GB |
+| `photos` | 49 GB |
+| `library` | 17 GB |
+| `video` | 5.2 GB |
+| `Documents` | 1.4 GB |
+| `images` | 639 MB |
+
+The media trees (`audio`, `anime`, and `video`) account for roughly 606 GB.
+The likely personal/irreplaceable trees (`photos`, `Documents`, and `images`)
+account for approximately 51 GB, subject to user classification. The
+`workshop` and `library` trees require comparison with current sources before
+they can be considered duplicate, reproducible, or archival.
 
 ## Principles
 
@@ -79,4 +100,3 @@ research corpus, and file synchronization can propagate accidental deletions.
 3. Decide whether zero additional hardware cost is absolute or whether one
    dedicated backup disk is acceptable later.
 4. Identify irreplaceable/confidential data that currently has only one copy.
-
