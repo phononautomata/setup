@@ -31,6 +31,20 @@ account for approximately 51 GB, subject to user classification. The
 `workshop` and `library` trees require comparison with current sources before
 they can be considered duplicate, reproducible, or archival.
 
+The user subsequently classified `photos` (49 GB) and `video` (5.2 GB) as
+irreplaceable personal material. On 2026-07-28, both trees were copied
+additively from Colony9 to BigBlue's internal SSD under:
+
+```text
+~/Irreplaceable/Colony9/
+```
+
+Read-only `rsync` checksum comparisons with deletion simulation produced zero
+differences for both trees. This establishes a verified second physical copy.
+Neither source tree was changed or deleted. Both copies remain at the same
+location and are not yet a complete disaster-recovery arrangement; an
+encrypted off-site third copy remains required.
+
 ## Principles
 
 1. Synchronization is not backup.
