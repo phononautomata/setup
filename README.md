@@ -38,6 +38,8 @@ Backup risks and the staged recovery design are in
 [docs/backup-plan.md](docs/backup-plan.md).
 The shared coding baseline and per-language conventions are in
 [docs/development-environments.md](docs/development-environments.md).
+The verified versions and brief purpose of each maintained tool are in
+[docs/tooling-inventory.md](docs/tooling-inventory.md).
 
 Run the non-destructive audit on either Mac:
 

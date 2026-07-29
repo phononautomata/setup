@@ -152,6 +152,9 @@ not backup.
 - Irreplaceable Colony9 photos and video copied to BigBlue and verified by
   content checksum.
 - Read-only inventory and conservative transfer scripts documented in Git.
+- Shared development baseline applied and verified on both Macs.
+- Python environment management standardized on `uv`; Rust and R project
+  conventions documented.
 
 ## Important unresolved work
 
@@ -171,12 +174,14 @@ Several recent projects have dirty working trees. Changes that exist only in a
 working tree are neither in GitHub nor recoverable through Time Machine.
 Active work should be reviewed, committed in coherent units, and pushed.
 
-### 3. Environment rollout — medium
+### 3. Project-level reproducibility pilot — medium
 
-The shared tool baseline and Python, R, Rust, LaTeX, and container conventions
-are now defined in [Development environments](development-environments.md).
-The Brewfile still needs to be applied and verified on both Macs, followed by a
-two-machine pilot on one active project.
+The shared tool baseline now passes on both Macs. Current versions and purposes
+are recorded in [Tooling inventory](tooling-inventory.md), and language
+conventions are defined in
+[Development environments](development-environments.md). The remaining proof
+is a two-machine pilot on one active project using a committed runtime
+declaration, dependency lockfile, and smoke test.
 
 ### 4. Data provenance and confidentiality — medium
 
@@ -194,16 +199,36 @@ The ecosystem still needs periodic checks for:
 - operating-system and tool updates;
 - recovery keys stored outside the protected device.
 
+### 6. BigBlue operating-system lifecycle — medium
+
+Ventura is now a Homebrew Tier 3 platform. Current heavyweight formulas may
+compile from source or fail, as demonstrated during the first environment
+rollout. Plan a supported macOS upgrade for BigBlue, but only after versioned
+backup and a restore test exist. Until then, prefer upstream prebuilt tools and
+avoid broad Homebrew upgrades.
+
 ## Practical assessment
 
 The networking and daily code workflow are functional now. Either Mac can be
 used for a Git-backed project, either can reach the other, and BigBlue can act
 as an unattended compute node.
 
-The ecosystem is not yet robust against disk loss, theft, fire, or accidental
-deletion because versioned and off-site backup remain incomplete. Backup is
-the next infrastructure priority; active-project cleanup and environment
-reproducibility can proceed alongside normal research work.
+The communication, Git, transfer, unattended-access, encryption, and shared
+development-tool layers are functional. The ecosystem is still not robust
+against disk loss, theft, fire, or accidental deletion because versioned and
+off-site backup remain incomplete.
+
+Recommended direction, in priority order:
+
+1. establish versioned local backup and an off-site copy for irreplaceable
+   photos and video;
+2. review and commit unprotected work in active project trees;
+3. when convenient, prove project recreation with the deferred `sf_dt` pilot;
+4. classify project data and document allowed storage locations;
+5. align BigBlue's R interpreter when an active R project requires it;
+6. upgrade BigBlue's macOS only after recovery is demonstrably available;
+7. add a small periodic health check for backups, disk space, Git state, and
+   remote availability.
 
 ## Supporting documents
 
@@ -213,3 +238,4 @@ reproducibility can proceed alongside normal research work.
 - [Project migration register](project-migration.md)
 - [Backup plan](backup-plan.md)
 - [Development environments](development-environments.md)
+- [Tooling inventory](tooling-inventory.md)

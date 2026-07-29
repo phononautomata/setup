@@ -11,7 +11,7 @@ without trying to make the operating systems byte-for-byte identical.
 | Shared utilities | `Brewfile` | Lightweight tools expected on both Macs |
 | Python | `uv` plus project files | Python version and dependency lock |
 | Rust | `rustup` plus `rust-toolchain.toml` | Rust toolchain per project |
-| R | Homebrew R plus `renv.lock` | R interpreter and packages |
+| R | Compatible interpreter plus `renv.lock` | R interpreter and project packages |
 | LaTeX | Existing TeX distribution plus project notes | Document build requirements |
 | Containers | Optional, project-specific | Services or unusually complex stacks |
 
@@ -19,6 +19,9 @@ Homebrew formula versions are intentionally not frozen globally. macOS and
 Apple SDK versions differ between the machines, and forcing every utility to
 an identical build would be brittle. Reproducibility belongs in each project:
 source code, runtime declaration, lockfile, and a tested command.
+
+The current side-by-side versions and the purpose of each tool are recorded in
+[Tooling inventory](tooling-inventory.md).
 
 ## Establish the shared baseline
 
