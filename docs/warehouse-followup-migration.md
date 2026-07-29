@@ -1,7 +1,13 @@
 # Warehouse follow-up migration preview
 
-Status: preview only, 2026-07-29. No repository has been created, no Warehouse
-file has been modified, and nothing has been pushed.
+Status: partially implemented, 2026-07-29.
+
+- Private GitHub repository `phononautomata/warehouse-followup` was created.
+- Local Motoko `batch` commits `dffe9db` and `ade6486` establish the
+  reproducibility boundary and checkpoint the follow-up source.
+- The repository has not been added as a Motoko remote and nothing has been
+  pushed to it; approval for that remote change was declined.
+- Notebook changes remain untouched and uncommitted.
 
 ## Why separate it
 
@@ -85,7 +91,8 @@ unless there is an explicit reason to version them.
 
 ## Proposed migration sequence
 
-All commands below are a future plan, not authorization to execute them.
+The sequence below records the intended process. Steps through local source
+checkpointing are complete; remote attachment and push remain pending.
 
 1. Review notebook output metadata and the held PDF provenance.
 2. Extend `.gitignore` for the three generated follow-up output trees and
@@ -126,4 +133,3 @@ All commands below are a future plan, not authorization to execute them.
   development.
 - The original Motoko directory is retained until the private clone and test
   succeed.
-
