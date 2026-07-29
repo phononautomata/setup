@@ -90,6 +90,16 @@ modify repositories, or reveal filenames. Ahead/behind values therefore use
 the last fetched remote state; fetch an individual repository before making a
 final synchronization decision.
 
+After selecting a repository for human review, show its commit subjects,
+changed filenames, and diff statistics without reading file contents:
+
+```sh
+./scripts/inspect-project-changes.sh PROJECT
+```
+
+This second report deliberately reveals filenames and should only be used for
+projects whose metadata is safe to display.
+
 ### Retiring an unintended parent repository
 
 Preview the archival operation:

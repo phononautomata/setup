@@ -90,3 +90,27 @@ The subsequent whole-workshop audit found additional history-level priorities:
 Do not resolve `madrid` with a blind pull because its histories have diverged.
 Before pushing `ukraine` or `warehouse`, confirm the target repository's
 visibility and that the commits contain no confidential or oversized data.
+
+### Publication and follow-up classification
+
+Classification confirmed on 2026-07-29:
+
+- `madrid` is a completed published project. Its GitHub repository is public
+  and `master` is the default branch. The divergent Motoko checkout contains
+  one local commit named `update`, a modified plotting script, and `.DS_Store`.
+  Treat GitHub as the published source of truth and the local divergence as a
+  retained archival candidate; do not spend effort merging it automatically.
+- `ukraine` is private on GitHub and semi-abandoned pending a larger rework.
+  Its nine local commits form a coherent regional-hub and transport-access
+  development line, accompanied by further uncommitted code, tests, scripts,
+  documentation, and modelled output. Preserve it as parked research work.
+  Review generated data before committing, then push a named work-in-progress
+  branch rather than silently redefining the stable `main` branch.
+- `warehouse` is a completed published project whose GitHub repository is
+  public and whose default branch is `main`. The local `batch` branch is a
+  distinct unpublished follow-up: two unpushed commits establish a
+  bout-clearance simulation model, followed by substantial uncommitted modules,
+  configurations, notebooks, scripts, and generated output. Do not push that
+  work to the public repository by default. The clean long-term boundary is a
+  new private follow-up repository that can retain the relevant `warehouse`
+  history while excluding generated `output/`.
