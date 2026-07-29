@@ -114,3 +114,6 @@ Classification confirmed on 2026-07-29:
   work to the public repository by default. The clean long-term boundary is a
   new private follow-up repository that can retain the relevant `warehouse`
   history while excluding generated `output/`.
+
+The non-mutating implementation proposal is recorded in
+[Warehouse follow-up migration preview](warehouse-followup-migration.md).

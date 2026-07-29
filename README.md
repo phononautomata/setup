@@ -34,6 +34,8 @@ Routine, non-agentic workflows are specified in
 [docs/operations.md](docs/operations.md).
 Per-project reconciliation decisions are tracked in
 [docs/project-migration.md](docs/project-migration.md).
+The proposed separation of unpublished Warehouse follow-up work is in
+[docs/warehouse-followup-migration.md](docs/warehouse-followup-migration.md).
 Backup risks and the staged recovery design are in
 [docs/backup-plan.md](docs/backup-plan.md).
 The shared coding baseline and per-language conventions are in
