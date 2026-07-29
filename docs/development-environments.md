@@ -8,7 +8,7 @@ without trying to make the operating systems byte-for-byte identical.
 | Layer | Mechanism | What it controls |
 | --- | --- | --- |
 | macOS command-line tools | Xcode Command Line Tools | Compiler and Apple SDK |
-| Shared utilities | `Brewfile` | Tools expected on both Macs |
+| Shared utilities | `Brewfile` | Lightweight tools expected on both Macs |
 | Python | `uv` plus project files | Python version and dependency lock |
 | Rust | `rustup` plus `rust-toolchain.toml` | Rust toolchain per project |
 | R | Homebrew R plus `renv.lock` | R interpreter and packages |
@@ -35,6 +35,14 @@ The default mode changes nothing. To install missing Brewfile entries:
 ```
 
 The apply mode installs missing entries but does not perform a blanket upgrade.
+On BigBlue, `uv` is installed from Astral's prebuilt standalone release rather
+than compiled through Homebrew:
+
+```sh
+./scripts/install-uv.sh
+./scripts/install-uv.sh --apply
+```
+
 Verify at any time with:
 
 ```sh
@@ -48,8 +56,10 @@ For a fuller read-only inventory, including optional tools:
 ```
 
 On Apple silicon, these scripts deliberately prefer `/opt/homebrew` over a
-legacy Intel Homebrew under `/usr/local`. BigBlue currently has traces of both;
-the legacy installation should not be used for the shared baseline.
+legacy Intel Homebrew under `/usr/local`. BigBlue currently has traces of both.
+It also runs Ventura, which Homebrew classifies as Tier 3; heavyweight current
+formulae may be compiled from source and fail. For that reason, `uv`, R, and
+optional linting tools are not installed through the shared Brewfile.
 
 Commit `Brewfile` changes before applying them on the other Mac. Add a tool only
 when it is genuinely useful across projects; project-specific command-line
@@ -101,8 +111,7 @@ when commands run inside that repository. Do not transfer `target/`.
 
 ## R project standard
 
-Use the Homebrew R interpreter as the shared workstation default and `renv` for
-project packages:
+Use `renv` for project packages:
 
 ```r
 install.packages("renv")
@@ -120,6 +129,13 @@ renv::restore()
 Record the tested R major/minor version in the project README. A project that
 depends on an exact historical R interpreter needs its own stronger strategy,
 such as a container; that complexity is not part of the workstation baseline.
+
+The Macs currently have different R interpreters: BigBlue has 4.1.0 and
+MotokoKusanagi has 4.4.2. Do not ask Homebrew on Ventura to build current R.
+For an R project that must run on both machines, install CRAN's signed
+`R-4.4.2-arm64.pkg` on BigBlue, verify its Apple signature first, and then use
+`renv::restore()`. Interpreter alignment is handled separately because the
+latest CRAN arm64 release requires macOS 14 and cannot run on BigBlue.
 
 ## LaTeX and containers
 
@@ -149,6 +165,9 @@ modify `sf_dt`.
 ## Primary references
 
 - [Homebrew Bundle and Brewfiles](https://docs.brew.sh/Brew-Bundle-and-Brewfile)
+- [Homebrew support tiers](https://docs.brew.sh/Support-Tiers)
 - [`uv` project locking and syncing](https://docs.astral.sh/uv/concepts/projects/sync/)
+- [`uv` standalone installation](https://docs.astral.sh/uv/getting-started/installation/)
 - [`renv` project environments](https://rstudio.github.io/renv/articles/renv)
+- [CRAN R binaries for Apple silicon macOS 11+](https://cran.r-project.org/bin/macosx/big-sur-arm64/base/)
 - [Rust toolchain override file](https://rust-lang.github.io/rustup/overrides.html#the-toolchain-file)

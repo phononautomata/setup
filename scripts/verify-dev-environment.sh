@@ -4,6 +4,9 @@
 
 set -u
 
+PATH="$HOME/.local/bin:$PATH"
+export PATH
+
 # Prefer the native Apple-silicon Homebrew when an older Intel installation
 # also exists in /usr/local.
 if [ "$(uname -m)" = arm64 ] && [ -x /opt/homebrew/bin/brew ]; then
@@ -11,7 +14,7 @@ if [ "$(uname -m)" = arm64 ] && [ -x /opt/homebrew/bin/brew ]; then
   export PATH
 fi
 
-required='brew git gh ssh rsync clang make cmake ninja pkg-config python3 uv rustup rustc cargo R latexmk fish jq rg shellcheck'
+required='brew git gh ssh rsync clang make cmake ninja pkg-config python3 uv rustup rustc cargo R latexmk fish jq'
 missing=0
 
 printf 'tool\tlocation\tversion\n'

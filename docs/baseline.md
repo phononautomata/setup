@@ -131,3 +131,23 @@ fast-forwarded through GitHub to `6774e565`. Both repositories were clean and
 aligned afterward. File comparison showed that most directory asymmetry came
 from machine-local Python environments and Rust build outputs; research data,
 results, and caches remain deliberately unreconciled pending classification.
+
+## Development baseline
+
+On 2026-07-29, BigBlue passed `scripts/verify-dev-environment.sh`. Its Python
+project manager is Astral's prebuilt `uv 0.11.32` under `~/.local/bin`; the
+lightweight shared Brewfile is satisfied.
+
+The first Brewfile revision incorrectly asked Homebrew on Ventura to install
+current R, `shellcheck`, `ripgrep`, and `uv`. Because Ventura is a Homebrew
+Tier 3 host, Homebrew attempted large source builds. The run was stopped while
+building LLVM for `uv`; an unused 2.2 GB GHC installation created for
+`shellcheck` was removed after confirming it had no dependents. The unused
+`autoconf`, `automake`, and `sphinx-doc` leaves from the same attempt were also
+removed. The useful `jq` installation was retained. The Brewfile was corrected
+to avoid heavyweight source builds on BigBlue.
+
+BigBlue still has R 4.1.0 while MotokoKusanagi has R 4.4.2. R interpreter
+alignment remains a separate task using CRAN's compatible signed 4.4.2 arm64
+package on BigBlue. It must not be attempted through current Homebrew on
+Ventura.

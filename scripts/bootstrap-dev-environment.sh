@@ -5,6 +5,9 @@
 
 set -eu
 
+PATH="$HOME/.local/bin:$PATH"
+export PATH
+
 # Prefer the native Apple-silicon Homebrew when an older Intel installation
 # also exists in /usr/local.
 if [ "$(uname -m)" = arm64 ] && [ -x /opt/homebrew/bin/brew ]; then
@@ -55,7 +58,17 @@ printf 'mode:     %s\n' "$mode"
 printf 'Brewfile: %s\n\n' "$brewfile"
 
 if [ "$mode" = check ]; then
-  if brew bundle check --verbose --no-upgrade --file="$brewfile"; then
+  failed=0
+  if ! brew bundle check --verbose --no-upgrade --file="$brewfile"; then
+    failed=1
+  fi
+  if ! command -v uv >/dev/null 2>&1; then
+    printf '\nuv is not installed. Preview its standalone installer with:\n'
+    printf '  %s/install-uv.sh\n' "$script_dir"
+    failed=1
+  fi
+
+  if [ "$failed" -eq 0 ]; then
     printf '\nShared development baseline is satisfied.\n'
   else
     printf '\nNo changes were made. Review the missing entries above.\n'
@@ -64,6 +77,11 @@ if [ "$mode" = check ]; then
   fi
 else
   brew bundle --file="$brewfile" --no-upgrade
+  if ! command -v uv >/dev/null 2>&1; then
+    "$script_dir/install-uv.sh" --apply
+    PATH="$HOME/.local/bin:$PATH"
+    export PATH
+  fi
   printf '\nInstall phase complete. Verifying baseline...\n'
   "$script_dir/verify-dev-environment.sh"
 fi

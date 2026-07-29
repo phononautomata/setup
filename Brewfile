@@ -7,8 +7,3 @@ brew "gh"
 brew "jq"
 brew "ninja"
 brew "pkgconf"
-brew "r"
-brew "ripgrep"
-brew "shellcheck"
-brew "uv"
-

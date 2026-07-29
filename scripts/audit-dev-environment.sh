@@ -5,6 +5,9 @@
 
 set -u
 
+PATH="$HOME/.local/bin:$PATH"
+export PATH
+
 # Prefer the native Apple-silicon Homebrew when an older Intel installation
 # also exists in /usr/local.
 if [ "$(uname -m)" = arm64 ] && [ -x /opt/homebrew/bin/brew ]; then
