@@ -47,3 +47,32 @@ MotokoKusanagi's `dev_claude` branch was initially local-only. After it was
 pushed to GitHub, BigBlue checked out a shallow copy at `6686c65`, tracking
 `origin/dev_claude`. The BigBlue checkout was approximately 382 MB rather than
 MotokoKusanagi's roughly 8 GB project directory.
+
+## Active-project safety snapshot
+
+Read-only audit date: 2026-07-29. Counts do not reveal filenames. Ahead/behind
+values use locally cached remote references and are not a substitute for a
+fresh fetch before synchronization.
+
+| Project | Branch | Staged | Unstaged | Untracked | Upstream | Ahead/behind |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| `bundles` | `main` | 0 | 0 | 8 | none; no origin | — |
+| `famitsu` | `main` | 0 | 1 | 4 | none; no origin | — |
+| `fisheries` | `refactor/src-architecture` | 0 | 0 | 1 | `origin/refactor/src-architecture` | 0/0 |
+| `inditex` | `main` | 0 | 2 | 7 | `origin/main` | 0/0 |
+| `lifestyles` | `main` | 0 | 1 | 1 | `origin/main` | 0/0 |
+| `metagillespie` | `main` | 0 | 5 | 3 | `origin/main` | 0/0 |
+| `scenarios` | `main` | 0 | 1 | 2 | `origin/main` | 0/0 |
+| `sealog` | `main` | 0 | 0 | 0 | none; no origin | — |
+| `sf_dt` | `dev_claude` | 0 | 0 | 0 | `origin/dev_claude` | 0/0 |
+
+Immediate interpretation:
+
+- `sealog` and `sf_dt` are clean.
+- No audited GitHub-backed project has a locally known unpushed commit.
+- `inditex` and `metagillespie` have the largest counts of uncommitted paths
+  among the recently active projects and deserve the first human review.
+- `bundles`, `famitsu`, and `sealog` have no `origin`; decide whether each is a
+  real project needing a private/public remote or merely a local collection.
+- `fisheries` has only one untracked path, but its meaning must be reviewed
+  before ignoring, committing, or removing it.

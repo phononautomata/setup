@@ -151,3 +151,36 @@ BigBlue still has R 4.1.0 while MotokoKusanagi has R 4.4.2. R interpreter
 alignment remains a separate task using CRAN's compatible signed 4.4.2 arm64
 package on BigBlue. It must not be attempted through current Homebrew on
 Ventura.
+
+## Shell startup findings
+
+BigBlue's Zsh startup warning was diagnosed on 2026-07-29. The login shell
+inherits `SHELL=/opt/homebrew/bin/fish`, while `.zprofile` evaluates:
+
+```sh
+eval "$(/opt/homebrew/bin/brew shellenv)"
+```
+
+Homebrew consequently emits Fish syntax and Zsh attempts to parse it, producing
+`parse error near 'end'`. The safe Zsh-specific form is:
+
+```sh
+eval "$(env SHELL=/bin/zsh /opt/homebrew/bin/brew shellenv)"
+```
+
+BigBlue also has a root-owned, stale Conda initialization block in `.zshrc`
+that references absent `/opt/anaconda3`. It is not causing the parse error and
+should be removed separately only with deliberate administrator access.
+
+MotokoKusanagi emits four `Could not open a connection to your authentication
+agent` messages during remote Fish startup. SSH authentication still succeeds.
+The source is now identified: `~/dotfiles/config.fish` runs two `ssh-add`
+checks and two additions during every Fish startup, including non-interactive
+SSH commands. Those commands should be restricted to an interactive shell
+before changing any key or agent configuration.
+
+The same Fish configuration defines older direct `rsync` helpers. One contains
+the host typo `biblue`; the other helpers copy whole project `data/` subtrees
+without the preview and logging safeguards used by this repository. They are
+not invoked automatically, but should eventually be retired or replaced with
+the documented transfer commands.

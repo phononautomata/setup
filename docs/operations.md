@@ -69,6 +69,27 @@ projects are independent repositories. The inventory reports this condition
 explicitly because a parent repository can accidentally track child project
 files and make repository boundaries ambiguous.
 
+## Active-project safety
+
+Run a filename-free Git safety report across all workshop repositories:
+
+```sh
+./scripts/audit-project-safety.sh
+```
+
+Or inspect only selected projects:
+
+```sh
+./scripts/audit-project-safety.sh \
+  bundles fisheries inditex lifestyles metagillespie scenarios sealog sf_dt
+```
+
+The report counts staged, unstaged, and untracked paths and shows the configured
+upstream plus the locally known ahead/behind relationship. It does not fetch,
+modify repositories, or reveal filenames. Ahead/behind values therefore use
+the last fetched remote state; fetch an individual repository before making a
+final synchronization decision.
+
 ### Retiring an unintended parent repository
 
 Preview the archival operation:
