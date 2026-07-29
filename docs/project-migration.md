@@ -112,8 +112,8 @@ Classification confirmed on 2026-07-29:
   bout-clearance simulation model, followed by substantial uncommitted modules,
   configurations, notebooks, scripts, and generated output. Do not push that
   work to the public repository by default. The clean long-term boundary is a
-  new private follow-up repository that can retain the relevant `warehouse`
+  new private project, **Buffer**, that retains the relevant `warehouse`
   history while excluding generated `output/`.
 
-The non-mutating implementation proposal is recorded in
-[Warehouse follow-up migration preview](warehouse-followup-migration.md).
+The implemented source migration and remaining notebook boundary are recorded in
+[Buffer migration](buffer-migration.md).

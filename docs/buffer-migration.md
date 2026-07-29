@@ -1,12 +1,17 @@
-# Warehouse follow-up migration preview
+# Buffer migration
 
-Status: partially implemented, 2026-07-29.
+Status: completed for committed source, 2026-07-29.
 
-- Private GitHub repository `phononautomata/warehouse-followup` was created.
+- Private GitHub repository `phononautomata/buffer` was created by renaming the
+  empty provisional `warehouse-followup` repository.
 - Local Motoko `batch` commits `dffe9db` and `ade6486` establish the
   reproducibility boundary and checkpoint the follow-up source.
-- The repository has not been added as a Motoko remote and nothing has been
-  pushed to it; approval for that remote change was declined.
+- Commit `6318405` establishes **Buffer** as the project and Python distribution
+  name.
+- Motoko remote `buffer` points to the private repository; local `batch` tracks
+  `buffer/main`.
+- BigBlue has a clean private clone at `~/workshop/buffer`.
+- `uv sync --locked` and the deterministic smoke test pass on both Macs.
 - Notebook changes remain untouched and uncommitted.
 
 ## Why separate it
@@ -15,7 +20,8 @@ The existing `phononautomata/warehouse` repository is public and represents a
 completed publication. Its default `main` branch is clean at `801854c`, tagged
 `v1.0-pre-submission-4`.
 
-The local `batch` branch is a distinct follow-up research line:
+The local `batch` branch is the development line for the distinct project now
+named **Buffer**:
 
 ```text
 801854c  public reproducibility release; merge base with main
@@ -91,8 +97,10 @@ unless there is an explicit reason to version them.
 
 ## Proposed migration sequence
 
-The sequence below records the intended process. Steps through local source
-checkpointing are complete; remote attachment and push remain pending.
+The sequence below records the implemented process. Repository creation,
+remote attachment, source push, BigBlue clone, environment recreation, and the
+cross-machine smoke test are complete. Notebook review remains deliberately
+separate.
 
 1. Review notebook output metadata and the held PDF provenance.
 2. Extend `.gitignore` for the three generated follow-up output trees and
@@ -101,23 +109,23 @@ checkpointing are complete; remote attachment and push remain pending.
 4. Commit source, configurations, and tests as one or more coherent units.
 5. Commit reviewed manuscript sources and notebooks separately.
 6. Run the available smoke tests or add a minimal one.
-7. Create an empty private GitHub repository:
+7. Create or verify the empty private GitHub repository:
 
    ```sh
-   gh repo create phononautomata/warehouse-followup --private
+   gh repo view phononautomata/buffer
    ```
 
 8. Add it as a second remote without altering the public origin:
 
    ```sh
-   git remote add followup \
-     git@github.com:phononautomata/warehouse-followup.git
+   git remote add buffer \
+     git@github.com:phononautomata/buffer.git
    ```
 
 9. Push the follow-up lineage as the private repository's `main`:
 
    ```sh
-   git push -u followup batch:main
+   git push -u buffer batch:main
    ```
 
 10. Clone the private repository on BigBlue, recreate its environment, and run
