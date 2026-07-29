@@ -26,8 +26,9 @@ report_project() {
     return
   fi
 
-  branch="$(git -C "$path" symbolic-ref --quiet --short HEAD 2>/dev/null ||
-    printf detached)"
+  if ! branch="$(git -C "$path" symbolic-ref --quiet --short HEAD 2>/dev/null)"; then
+    branch='detached'
+  fi
 
   counts="$(git -C "$path" status --porcelain=v2 2>/dev/null |
     awk '
@@ -40,16 +41,29 @@ report_project() {
       }
       END { printf "%d\t%d\t%d", staged, unstaged, untracked }
     ')"
+  old_ifs="$IFS"
+  IFS='	'
+  set -- $counts
+  IFS="$old_ifs"
+  staged="${1:-0}"
+  unstaged="${2:-0}"
+  untracked="${3:-0}"
 
-  upstream="$(git -C "$path" rev-parse --abbrev-ref '@{upstream}' 2>/dev/null ||
-    printf none)"
+  if ! upstream="$(git -C "$path" rev-parse --abbrev-ref \
+    '@{upstream}' 2>/dev/null)"; then
+    upstream='none'
+  fi
   ahead='-'
   behind='-'
   if [ "$upstream" != none ]; then
-    relation="$(git -C "$path" rev-list --left-right --count \
-      "$upstream...HEAD" 2>/dev/null || printf '-\t-')"
-    behind="$(printf '%s\n' "$relation" | awk '{print $1}')"
-    ahead="$(printf '%s\n' "$relation" | awk '{print $2}')"
+    if relation="$(git -C "$path" rev-list --left-right --count \
+      "$upstream...HEAD" 2>/dev/null)"; then
+      behind="$(printf '%s\n' "$relation" | awk '{print $1}')"
+      ahead="$(printf '%s\n' "$relation" | awk '{print $2}')"
+    else
+      ahead='unknown'
+      behind='unknown'
+    fi
   fi
 
   if git -C "$path" remote get-url origin >/dev/null 2>&1; then
@@ -58,8 +72,9 @@ report_project() {
     origin='no'
   fi
 
-  printf '%s\t%s\t%s\t%s\t%s\t%s\t%s\n' \
-    "$project" "$branch" "$counts" "$upstream" "$ahead" "$behind" "$origin"
+  printf '%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n' \
+    "$project" "$branch" "$staged" "$unstaged" "$untracked" \
+    "$upstream" "$ahead" "$behind" "$origin"
 }
 
 if [ "$#" -gt 0 ]; then
@@ -79,4 +94,3 @@ else
       fi
     done
 fi
-

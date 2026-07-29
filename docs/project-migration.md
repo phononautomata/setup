@@ -76,3 +76,17 @@ Immediate interpretation:
   real project needing a private/public remote or merely a local collection.
 - `fisheries` has only one untracked path, but its meaning must be reviewed
   before ignoring, committing, or removing it.
+
+The subsequent whole-workshop audit found additional history-level priorities:
+
+- `ukraine/main` is 9 commits ahead of its locally known `origin/main`;
+- `warehouse/batch` is 2 commits ahead of `origin/batch`;
+- `madrid/master` has diverged: 1 commit ahead and 7 behind;
+- `threshold/master` is 2 commits behind and also has uncommitted paths;
+- `netcom` has 7 staged, 10 unstaged, and 4 untracked paths but no origin;
+- `zlc_course_python` has 2 staged, 1 unstaged, and 7 untracked paths;
+- `netrust` has an origin but no configured upstream.
+
+Do not resolve `madrid` with a blind pull because its histories have diverged.
+Before pushing `ukraine` or `warehouse`, confirm the target repository's
+visibility and that the commits contain no confidential or oversized data.
