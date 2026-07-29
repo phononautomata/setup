@@ -171,11 +171,12 @@ Several recent projects have dirty working trees. Changes that exist only in a
 working tree are neither in GitHub nor recoverable through Time Machine.
 Active work should be reviewed, committed in coherent units, and pushed.
 
-### 3. Environment reproducibility — medium
+### 3. Environment rollout — medium
 
-Python, R, Rust, and container conventions are not yet standardized.
-Virtual environments and build directories should be reproducible from
-lockfiles and documented bootstrap commands on either Mac.
+The shared tool baseline and Python, R, Rust, LaTeX, and container conventions
+are now defined in [Development environments](development-environments.md).
+The Brewfile still needs to be applied and verified on both Macs, followed by a
+two-machine pilot on one active project.
 
 ### 4. Data provenance and confidentiality — medium
 
@@ -211,4 +212,4 @@ reproducibility can proceed alongside normal research work.
 - [Daily operations](operations.md)
 - [Project migration register](project-migration.md)
 - [Backup plan](backup-plan.md)
-
+- [Development environments](development-environments.md)

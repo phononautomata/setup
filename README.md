@@ -36,6 +36,8 @@ Per-project reconciliation decisions are tracked in
 [docs/project-migration.md](docs/project-migration.md).
 Backup risks and the staged recovery design are in
 [docs/backup-plan.md](docs/backup-plan.md).
+The shared coding baseline and per-language conventions are in
+[docs/development-environments.md](docs/development-environments.md).
 
 Run the non-destructive audit on either Mac:
 
